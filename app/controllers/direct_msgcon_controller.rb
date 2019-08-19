@@ -7,6 +7,7 @@ class DirectMsgconController < ApplicationController
     @directmsgoutput=TDmsg.select("t_dmsgs.msg,t_dmsgs.created_at,m_users.name,t_dmsgs.id,t_dmsgs.sender_id")
     .joins("inner join m_users on t_dmsgs.sender_id=m_users.id")
     .where("t_dmsgs.workspace_id=? and ((t_dmsgs.sender_id=? and t_dmsgs.receiver_id=?) or (t_dmsgs.receiver_id=? and t_dmsgs.sender_id=?))",session[:workspace_id],session[:user_id],params[:clickuserid],session[:user_id],params[:clickuserid])
+    .order(created_at: :asc)
 
     @arrDirThread = []
     for dirthread in @directmsgoutput
