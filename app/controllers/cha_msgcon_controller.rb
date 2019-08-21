@@ -4,10 +4,7 @@ class ChaMsgconController < ApplicationController
     @usernames=MUser.select("m_users.name,m_users.id")
     .joins("join t_relationships on m_users.id=t_relationships.user_id")
     .where("t_relationships.user_id!=? and t_relationships.workspace_id=? and t_relationships.cha_id=? and t_relationships.isdeactivated=false", session[:user_id],session[:workspace_id],session[:cha_id])
-    
-    session.delete(:clickuser_id)
-    session.delete(:clickuser_name)
-    
+
     chaclick=MCha.find_by(id: params[:clickchaid])
     logchaclick chaclick
         
