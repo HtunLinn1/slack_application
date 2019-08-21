@@ -30,7 +30,7 @@ class ChaMsgconController < ApplicationController
     @insertarray = []
     @chaarray = []
       
-    @updatelistpeople = MUser.select("m_users.name,t_relationships.user_id,t_relationships.id")
+    @updatelistpeople = MUser.select("distinct m_users.name,t_relationships.user_id,t_relationships.id")
     .joins("join t_relationships on m_users.id=t_relationships.user_id")
     .where("t_relationships.workspace_id=? and t_relationships.cha_id=? and t_relationships.isdeactivated=true ",session[:workspace_id],session[:cha_id])
         
