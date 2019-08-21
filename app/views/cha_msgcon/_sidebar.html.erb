@@ -6,7 +6,7 @@
   <% end %>
   <div class="center">
     <div class="w3-bar-item w3-button">
-      <% if @chamember[0][:user_id]==session[:user_id]%>
+      <% if @userid[0][:user_id]==session[:user_id]%>
         <% @chamember.each do |memberlist|%>
           <% if memberlist.user_id != session[:user_id]%>
             <h4><%=memberlist.name%><%=link_to "削除",removemember_url(:user_id =>memberlist.id),style:"text-decoration:none;"%><br></h4>

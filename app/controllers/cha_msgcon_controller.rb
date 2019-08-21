@@ -52,7 +52,9 @@ class ChaMsgconController < ApplicationController
     session[:cha_id],session[:cha_id],session[:workspace_id],session[:cha_id])
     .group("m_users.name")
 
-    sql=%(select m_users.name,t_relationships.id,t_relationships.user_id from m_users
+    @userid = TRelationship.select("user_id,created_at").where("workspace_id=? and cha_id=?",session[:workspace_id],session[:cha_id]).order(created_at: :asc)
+
+    sql=%(select m_users.name,t_relationships.id,t_relationships.user_id,t_relationships.created_at from m_users
     join t_relationships on m_users.id=t_relationships.user_id where 
     t_relationships.cha_id=? and t_relationships.workspace_id=? and t_relationships.isdeactivated=false),session[:cha_id],session[:workspace_id]
         
