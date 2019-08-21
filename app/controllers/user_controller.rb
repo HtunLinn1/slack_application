@@ -26,7 +26,7 @@ class UserController < ApplicationController
     @trid=TRelationship.where("user_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
     @dmsg=TDmsg.where("sender_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
     @chmsg=TChamsg.where("sender_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
-    
+  
     redirect_to membermanagement_path
   end
 end
