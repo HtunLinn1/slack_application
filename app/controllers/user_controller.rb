@@ -3,7 +3,7 @@ class UserController < ApplicationController
     @chaid=MCha.select("name,id").where("workspace_id=?",session[:workspace_id])
     @arrChaAdmin=[]
     for id in @chaid
-      @chaadminid=TRelationship.select("user_id,cha_id").where("t_relationships.workspace_id=? and cha_id=?", session[:workspace_id],id.id)
+      @chaadminid=TRelationship.select("user_id,cha_id,created_at").where("t_relationships.workspace_id=? and cha_id=?", session[:workspace_id],id.id).order(created_at: :asc)
       @arrChaAdmin << @chaadminid[0]  
     end
     menu

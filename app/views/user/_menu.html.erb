@@ -5,7 +5,7 @@
       <username class="menuusername"><%= session[:user_name]%><username>
       </div>
           <span class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <% if session[:admin_id] %>
+          <% if session[:admin_id]!=nil %>
            <div> <a class="dropdown-item"><%= link_to "メンバー管理",membermanagement_path,style:"text-decoration:none;" %></a></div>
            <div><a class="dropdown-item"><%= link_to "チャネル管理",channelmanagement_path,style:"text-decoration:none;" %></a></div>
            <div> <a class="dropdown-item"><%= link_to "ワークスペースをサインアウトする",logout_url,style:"text-decoration:none;" %> </a></div>

@@ -38,9 +38,9 @@ module SessionsHelper
   def menu
     @totalchaunread=0
     @arrChamsgcount = []
-    @chaname=MCha.select("m_chas.name,m_chas.id,m_chas.isprivate")
+    @chaname=MCha.select("m_chas.name,m_chas.id,m_chas.isprivate,m_chas.created_at")
     .joins("join t_relationships on m_chas.id=t_relationships.cha_id")
-    .where("t_relationships.workspace_id=? and t_relationships.user_id=? and isdeactivated=false",session[:workspace_id],session[:user_id] )
+    .where("t_relationships.workspace_id=? and t_relationships.user_id=? and isdeactivated=false",session[:workspace_id],session[:user_id] ).order(created_at: :asc)
     for a in @chaname
       @count=TRelationship.select("msg_count,cha_id").where("cha_id=? and user_id=?",a.id,session[:user_id])
       for array in @count
