@@ -9,8 +9,9 @@ class UserController < ApplicationController
     menu
   end
   def delete 
-    @mcha=MCha.find_by(id: params[:cha_id]).destroy
-    @tchamsg=TChamsg.select("*").where("cha_id=?", params[:cha_id]).destroy_all
+    MCha.find_by(id: params[:cha_id]).destroy
+    TRelationship.where("cha_id=? and workspace_id=?", params[:cha_id],session[:workspace_id]).destroy_all
+    TChamsg.where("cha_id=?", params[:cha_id]).destroy_all
     redirect_to channelmanagement_path
   end
 
@@ -23,9 +24,9 @@ class UserController < ApplicationController
   end
    
   def remove
-    @trid=TRelationship.where("user_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
-    @dmsg=TDmsg.where("sender_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
-    @chmsg=TChamsg.where("sender_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
+    TRelationship.where("user_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
+    TDmsg.where("sender_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
+    TChamsg.where("sender_id=? and workspace_id=?", params[:user_id],session[:workspace_id]).destroy_all
   
     redirect_to membermanagement_path
   end

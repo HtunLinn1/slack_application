@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
   get '/msgsendandrec' , to: 'static_pages#msgsendandrec'
   get  'invitemember', to:'invitations#invitemember'
-  post  'invitations', to:'invitations#create'
+  post  'invitemember', to:'invitations#create'
   get '/editjoinworkspace', to:'joinworkspaces#edit'
   post   '/editjoinworkspace',  to: 'joinworkspaces#create'
 

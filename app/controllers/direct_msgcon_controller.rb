@@ -1,9 +1,13 @@
 class DirectMsgconController < ApplicationController
   def direct_msgcon 
-    directclick=MUser.find_by(id:params[:clickuserid])
+    
     session.delete(:cha_id)
     session.delete(:cha_name)
-    logdirectclick directclick
+    @user_id = TRelationship.where("user_id=? and workspace_id=?",params[:clickuserid],session[:workspace_id])
+    if @user_id[0]!=nil
+      directclick=MUser.find_by(id:params[:clickuserid])
+      logdirectclick directclick
+    end
     @directmsgoutput=TDmsg.select("t_dmsgs.msg,t_dmsgs.created_at,m_users.name,t_dmsgs.id,t_dmsgs.sender_id")
     .joins("inner join m_users on t_dmsgs.sender_id=m_users.id")
     .where("t_dmsgs.workspace_id=? and ((t_dmsgs.sender_id=? and t_dmsgs.receiver_id=?) or (t_dmsgs.receiver_id=? and t_dmsgs.sender_id=?))",session[:workspace_id],session[:user_id],params[:clickuserid],session[:user_id],params[:clickuserid])
@@ -60,14 +64,19 @@ class DirectMsgconController < ApplicationController
   end
 
   def create
-    @directmsg = TDmsg.new
-    @directmsg.sender_id=session[:user_id]
-    @directmsg.receiver_id=session[:clickuser_id]
-    @directmsg.msg=params[:session][:sendmsgdir]
-    @directmsg.isread=false
-    @directmsg.workspace_id=session[:workspace_id]
-    @directmsg.save
-    redirect_back(fallback_location:directmsg_path)
+    userid = TRelationship.where("user_id=? and workspace_id=?",session[:clickuser_id],session[:workspace_id])
+    if userid[0]!=nil
+      @directmsg = TDmsg.new
+      @directmsg.sender_id=session[:user_id]
+      @directmsg.receiver_id=session[:clickuser_id]
+      @directmsg.msg=params[:session][:sendmsgdir]
+      @directmsg.isread=false
+      @directmsg.workspace_id=session[:workspace_id]
+      @directmsg.save
+      redirect_back(fallback_location:directmsg_path)
+    else
+      redirect_back(fallback_location:main_path)
+    end
   end
 
 private

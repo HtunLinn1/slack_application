@@ -14,58 +14,62 @@
   <%= render 'user/menu' %>
 </div>
 <div class="col-md-6 col-md-offset-3">
-  <%  @dirMsg.each do |msg|%>
-    <%= image_tag("user.png.jpg", :alt => "rss feed" ,:class =>"avatar") %>
-    <span>&nbsp;</span>
-    <%= msg.name %> <span>&nbsp;&nbsp;</span>
-    <% @s_dif=(Time.zone.now-msg.created_at).to_i
-      @days=@s_dif/(3600*24)
-      @hours=@s_dif/3600
-      @s_dif-=@hours*3600
-      @minutes=@s_dif/60
-      @s_dif-=@minutes*60
-      @seconds=@s_dif
-      %>
-    <% if @days>=1  %>
-        <%= msg.created_at.strftime("%Y-%m-%d") %>(<%= @days%>-day ago)
-    <% elsif @hours>=1  %>
-        <%= msg.created_at.strftime("%Y-%m-%d") %>(<%= @hours %>-hour ago)
-    <% elsif @seconds>=0 && @hours==0  %>
-        <%= msg.created_at.strftime("%Y-%m-%d") %>(<%= @minutes %> min ago)
-    <% end %>
-  <br>   
-  <span>&nbsp;</span>
-  <%= msg.msg %>
-  <br>
-  <%  @dirthreadmsgoutput.each do |v|%>
-    <% if v.dmsg_id == msg.id%>
-    <div class="threadbox">
-      <span>&nbsp;</span>
-      <%= image_tag("user.png.jpg", :alt => "rss feed" ,:class =>"avatar") %>
-      <span>&nbsp;</span>
-      <%= v.name %><span>&nbsp;&nbsp;</span>
-      <% @s_dif=(Time.zone.now-v.created_at).to_i
-        @days=@s_dif/(3600*24)
-        @hours=@s_dif/3600
-        @s_dif-=@hours*3600
-        @minutes=@s_dif/60
-        @s_dif-=@minutes*60
-        @seconds=@s_dif
-        %>
+<% if @dirmsgclickid != nil%>
+      <%  @dirMsg.each do |msg|%>
+        <%= image_tag("user.png.jpg", :alt => "rss feed" ,:class =>"avatar") %>
+        <span>&nbsp;</span>
+        <%= msg.name %> <span>&nbsp;&nbsp;</span>
+        <% @s_dif=(Time.zone.now-msg.created_at).to_i
+          @days=@s_dif/(3600*24)
+          @hours=@s_dif/3600
+          @s_dif-=@hours*3600
+          @minutes=@s_dif/60
+          @s_dif-=@minutes*60
+          @seconds=@s_dif
+          %>
         <% if @days>=1  %>
-           <%= v.created_at.strftime("%Y-%m-%d") %>(<%= @days%>-day ago)
+            <%= msg.created_at.strftime("%Y-%m-%d") %>(<%= @days%>-day ago)
         <% elsif @hours>=1  %>
-           <%= v.created_at.strftime("%Y-%m-%d") %>(<%= @hours %>-hour ago)
+            <%= msg.created_at.strftime("%Y-%m-%d") %>(<%= @hours %>-hour ago)
         <% elsif @seconds>=0 && @hours==0  %>
-           <%= v.created_at.strftime("%Y-%m-%d") %>(<%= @minutes %> min ago)
-       <% end %>
+            <%= msg.created_at.strftime("%Y-%m-%d") %>(<%= @minutes %> min ago)
+        <% end %>
+      <br>   
+      <span>&nbsp;</span>
+      <%= msg.msg %>
+      <br>
+      <%  @dirthreadmsgoutput.each do |v|%>
+        <% if v.dmsg_id == msg.id%>
+        <div class="threadbox">
+          <span>&nbsp;</span>
+          <%= image_tag("user.png.jpg", :alt => "rss feed" ,:class =>"avatar") %>
+          <span>&nbsp;</span>
+          <%= v.name %><span>&nbsp;&nbsp;</span>
+          <% @s_dif=(Time.zone.now-v.created_at).to_i
+            @days=@s_dif/(3600*24)
+            @hours=@s_dif/3600
+            @s_dif-=@hours*3600
+            @minutes=@s_dif/60
+            @s_dif-=@minutes*60
+            @seconds=@s_dif
+            %>
+            <% if @days>=1  %>
+              <%= v.created_at.strftime("%Y-%m-%d") %>(<%= @days%>-day ago)
+            <% elsif @hours>=1  %>
+              <%= v.created_at.strftime("%Y-%m-%d") %>(<%= @hours %>-hour ago)
+            <% elsif @seconds>=0 && @hours==0  %>
+              <%= v.created_at.strftime("%Y-%m-%d") %>(<%= @minutes %> min ago)
+          <% end %>
+          <% end %>
+          <br> 
+          <span>&emsp;</span>
+          <%= v.thread_msg %><br>
+        </div>
+        <% end %>
       <% end %>
-      <br> 
-      <span>&emsp;</span>
-      <%= v.thread_msg %><br>
-    </div>
+      <% else %>
+       <p class="alertuser">このメッセージは送信者によって削除されました</p>
     <% end %>
-  <% end %>
 </div>
 <div class="footer">
   <%= form_for(:session,url:dirthread_path) do |f| %>

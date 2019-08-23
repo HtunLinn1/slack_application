@@ -1,7 +1,9 @@
 class ThreadDirmsgController < ApplicationController
   def thread_dirmsg 
-    dirmsgclickid=TDmsg.find_by(id:params[:clickdirmsgid])
-    logdirclickmsgid dirmsgclickid
+    @dirmsgclickid=TDmsg.find_by(id:params[:clickdirmsgid])
+    if @dirmsgclickid!=nil
+    logdirclickmsgid @dirmsgclickid
+    end
     @dirMsg=MUser.select("m_users.name,t_dmsgs.msg,t_dmsgs.id,t_dmsgs.created_at")
     .joins("join t_dmsgs on t_dmsgs.sender_id=m_users.id")
     .where("t_dmsgs.id=?",params[:clickdirmsgid])

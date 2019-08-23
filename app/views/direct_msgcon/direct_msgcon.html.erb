@@ -1,7 +1,11 @@
 <div class="header">
   <div class="top_header">
     <div class="chaH">
-      <h4><%= session[:clickuser_name] %></h4>
+      <% if @user_id!=[] %>
+        <h4><%= session[:clickuser_name] %></h4>
+        <%else%>
+        <h4 class="delete"><%= session[:clickuser_name] %> は削除されました<h4>
+      <% end %>
     </div>
     <div class="header-right">
       <%= link_to "", starmessage_path, class:"fa fa-star",style:"color:white"%>

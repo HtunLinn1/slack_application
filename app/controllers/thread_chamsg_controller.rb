@@ -1,7 +1,9 @@
 class ThreadChamsgController < ApplicationController
   def thread_chamsg 
-    chamsgclickid=TChamsg.find_by(id:params[:clickchamsgid])
-    logchaclickmsgid chamsgclickid
+    @chamsgclickid=TChamsg.find_by(id:params[:clickchamsgid])
+    if @chamsgclickid != nil
+      logchaclickmsgid @chamsgclickid
+    end
     @chaMsg=MUser.select("m_users.name,t_chamsgs.msg,t_chamsgs.id,t_chamsgs.created_at")
     .joins("join t_chamsgs on t_chamsgs.sender_id=m_users.id")
     .where("t_chamsgs.cha_id=? and t_chamsgs.id=?",session[:cha_id],params[:clickchamsgid])
@@ -13,12 +15,17 @@ class ThreadChamsgController < ApplicationController
     menu
   end
   def create
-    @chathreadmsg=HChaThread.new
-    @chathreadmsg.chathread_msg=params[:session][:sendmsg]
-    @chathreadmsg.chamsg_id=session[:chamsgclick_id]
-    @chathreadmsg.user_id=session[:user_id]
-    @chathreadmsg.save
-    redirect_back(fallback_location:threadmsg_path)
+    threadchamsg = TChamsg.where("id=?",session[:chamsgclick_id])
+    if threadchamsg[0]!=nil
+        @chathreadmsg=HChaThread.new
+        @chathreadmsg.chathread_msg=params[:session][:sendmsg]
+        @chathreadmsg.chamsg_id=session[:chamsgclick_id]
+        @chathreadmsg.user_id=session[:user_id]
+        @chathreadmsg.save
+        redirect_back(fallback_location:threadmsg_path)
+      else
+        redirect_back(fallback_location:threadmsg_path)
+      end
   end
 
   private

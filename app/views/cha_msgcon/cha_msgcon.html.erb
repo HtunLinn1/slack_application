@@ -1,7 +1,11 @@
 <div class="header">
     <div class="top_header">
         <div class="chaH">
-            <h4><%= session[:cha_name] %></h4>
+          <% if @chaclick.nil? %>
+          <h4 class="delete"><%= session[:cha_name] %>チャンネルは管理者によって削除されました</h4>
+          <% else %>
+          <h4><%= session[:cha_name] %></h4>
+          <% end %>
         </div>
         <div class="header-right">
             <%= link_to "", starmessage_path, class:"fa fa-star",style:"color:white"%>
