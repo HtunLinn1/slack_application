@@ -66,7 +66,7 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = 'thawing-garden-31552.herokuapp.com'
+  host = 'salty-harbor-24275.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
     :address        => "smtp.gmail.com",
